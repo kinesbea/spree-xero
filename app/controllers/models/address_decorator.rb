@@ -15,7 +15,7 @@ Address.class_eval do
           result = gateway.create_contact(contact)
           saved_contact = result.contact if result.success?
         rescue XeroGateway::ApiException
-          saved_contact = nil
+          debugger
         end
       end
     end

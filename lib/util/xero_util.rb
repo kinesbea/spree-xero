@@ -1,4 +1,4 @@
-class XeroUtil #< XeroGateway::Gateway
+class XeroUtil
   include XeroGateway::Http
 
   def self.setup_exists?
@@ -32,7 +32,8 @@ class XeroUtil #< XeroGateway::Gateway
     if (error.nil?)
       request_xml = payment.to_xml
       response_xml = x.http_put(gateway_instance.client, "#{gateway_instance.xero_url}/Payments", request_xml, {})
-      response = x.parse_response(response_xml, {:request_xml => request_xml}, {:request_signature => 'PUT/Payments'})
+      
+      response = x.parse_response(response_xml, {:request_xml => request_xml}, {:request_signature => 'PUT/payments'})
       response.response_item = response.payments.first
       if response.success? && response.payment && response.payment.payment_id
         payment.payment_id = response.payment.payment_id
@@ -40,6 +41,7 @@ class XeroUtil #< XeroGateway::Gateway
       response
     end
   end
+
   def logger
     false
   end
@@ -49,12 +51,10 @@ class XeroUtil #< XeroGateway::Gateway
     response = XeroGateway::Response.new
 
     doc = REXML::Document.new(raw_response, :ignore_whitespace_nodes => :all)
-    debugger
     # check for responses we don't understand
     raise UnparseableResponse.new(doc.root.name) unless doc.root.name == "Response"
 
     response_element = REXML::XPath.first(doc, "/Response")
-    debugger
     response_element.children.reject { |e| e.is_a? REXML::Text }.each do |element|
       case(element.name)
         when "ID" then response.response_id = element.text
@@ -63,6 +63,7 @@ class XeroUtil #< XeroGateway::Gateway
         when "DateTimeUTC" then response.date_time = element.text
         when "Contact" then response.response_item = Contact.from_xml(element, self)
         when "Invoice" then response.response_item = Invoice.from_xml(element, self, {:line_items_downloaded => options[:request_signature] != "GET/Invoices"})
+        when "Payment" then response.response_item = Payment.from_xml(element, self)
         when "Contacts" then element.children.each {|child| response.response_item << Contact.from_xml(child, self) }
         when "Invoices" then element.children.each {|child| response.response_item << Invoice.from_xml(child, self, {:line_items_downloaded => options[:request_signature] != "GET/Invoices"}) }
         when "CreditNotes" then element.children.each {|child| response.response_item << CreditNote.from_xml(child, self, {:line_items_downloaded => options[:request_signature] != "GET/CreditNotes"}) }
@@ -74,7 +75,7 @@ class XeroUtil #< XeroGateway::Gateway
         when "Errors" then element.children.each { |error| parse_error(error, response) }
       end
     end if response_element
-    
+
     # If a single result is returned don't put it in an array
     if response.response_item.is_a?(Array) && response.response_item.size == 1
       response.response_item = response.response_item.first
