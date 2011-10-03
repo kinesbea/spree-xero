@@ -1,0 +1,26 @@
+<%= render :partial => 'admin/shared/configuration_menu' %>
+
+<h1><%= t("xero_settings") %></h1>
+
+<table>
+  <tr>
+    <th scope="row"><%= t("consumer_key") %>:</th>
+    <td>
+        <% if Spree::Config[:xero_consumer_key] %>
+            <%=  Spree::Config[:xero_consumer_key] %>
+        <% end %>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row"><%= t("consumer_secret") %>:</th>
+    <td>
+        <% if Spree::Config[:xero_consumer_secret] %>
+            <%=  Spree::Config[:xero_consumer_secret] %>
+        <% end %>
+    </td>
+  </tr>
+</table>
+
+<p><%= link_to_with_icon 'edit', t("edit"), edit_admin_xero_settings_path, :id => 'admin_xero_settings_link' %></p>
+
+
