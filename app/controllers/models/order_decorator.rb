@@ -16,7 +16,7 @@ Order.class_eval do
           invoice.contact = get_contact_for_xero
           load_line_items_for_xero(invoice)
           load_adjustments_for_xero(invoice)
-          
+          debugger
           result = gateway.create_invoice(invoice)
           saved_invoice = result.invoice if result.success?
         rescue XeroGateway::ApiException => exc
@@ -56,7 +56,7 @@ Order.class_eval do
           :quantity => l.quantity,
           :unit_amount => l.price,
           :line_item_id => l.product.id,
-          :account_code => l.product.xero_acct_code ? Spree::Config[:sale_dflt_acct_code]:l.product.xero_acct_code,
+          :account_code => (l.product.xero_acct_code.nil? || l.product.xero_acct_code.empty?) ? Spree::Config[:sale_dflt_acct_code]:l.product.xero_acct_code,
           :tax_type => 'NONE',
           :tax_amount => 0.0
       )

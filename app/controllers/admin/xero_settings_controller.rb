@@ -20,7 +20,7 @@ class Admin::XeroSettingsController < Admin::BaseController
   def test
     gateway = XeroUtil.gateway
     if (XeroUtil.error.nil?)
-      @result = gateway.get_contacts.contacts
+      @result = gateway.get_accounts.accounts
     end
   end
 end

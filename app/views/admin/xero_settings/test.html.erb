@@ -1,3 +1,12 @@
 <%= XeroUtil.error if XeroUtil.error %>
-<%= @result[0].name if @result %>
-<hr/>
+<table>
+    <caption>Xero Chart of Accounts</caption>
+    <% @result.each do |a| %>
+        <tr>
+             <td><%= a.code %></td>
+             <td><%= a.name %></td>
+             <td><%= a.type %></td>
+             <td><%= a.account_id %></td>
+        </tr>
+    <% end %>
+</table>
