@@ -7,13 +7,13 @@ class Admin::XeroSettingsController < Admin::BaseController
       redirect_to edit_admin_xero_settings_path
     else
       Spree::Config.set(params[:preferences])
-      debugger
-      name =  params[:private_key_file].original_filename
-      directory = "#{RAILS_ROOT}/config"
-      path = File.join(directory, name)
-      File.open(path, "wb") { |f| f.write(params[:private_key_file].read) }
-      Spree::Config.set({ :private_key_file => name })
-
+      if params[:private_key_file]
+        name =  params[:private_key_file].original_filename
+        directory = "#{RAILS_ROOT}/config"
+        path = File.join(directory, name)
+        File.open(path, "wb") { |f| f.write(params[:private_key_file].read) }
+        Spree::Config.set({ :private_key_file => name })
+      end
       redirect_to admin_xero_settings_path
     end
   end
