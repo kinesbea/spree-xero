@@ -57,6 +57,7 @@ Order.class_eval do
           :unit_amount => l.price,
           :line_item_id => l.product.id,
           :account_code => l.product.xero_acct_code ? Spree::Config[:sale_dflt_acct_code]:l.product.xero_acct_code,
+          :tax_type => 'NONE',
           :tax_amount => 0.0
       )
     end
