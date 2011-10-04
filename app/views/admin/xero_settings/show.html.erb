@@ -4,6 +4,38 @@
 
 <table>
   <tr>
+    <th scope="row"><%= t("product_sale_dflt_acct_code") %>:</th>
+    <td>
+        <% if Spree::Config[:sale_dflt_acct_code] %>
+            <%=  Spree::Config[:sale_dflt_acct_code] %>
+        <% end %>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row"><%= t("shipping_acct_code") %>:</th>
+    <td>
+        <% if Spree::Config[:shipping_acct_code] %>
+            <%=  Spree::Config[:shipping_acct_code] %>
+        <% end %>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row"><%= t("adjustment_acct_code") %>:</th>
+    <td>
+        <% if Spree::Config[:adjustment_acct_code] %>
+            <%=  Spree::Config[:adjustment_acct_code] %>
+        <% end %>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row"><%= t("payment_acct_code") %>:</th>
+    <td>
+        <% if Spree::Config[:payment_acct_code] %>
+            <%=  Spree::Config[:payment_acct_code] %>
+        <% end %>
+    </td>
+  </tr>
+  <tr>
     <th scope="row"><%= t("consumer_key") %>:</th>
     <td>
         <% if Spree::Config[:xero_consumer_key] %>
@@ -16,6 +48,14 @@
     <td>
         <% if Spree::Config[:xero_consumer_secret] %>
             <%=  Spree::Config[:xero_consumer_secret] %>
+        <% end %>
+    </td>
+  </tr>
+  <tr>
+    <th scope="row"><%= t("private_key_file") %>:</th>
+    <td>
+        <% if Spree::Config[:private_key_file] %>
+            <%=  Spree::Config[:private_key_file] %>
         <% end %>
     </td>
   </tr>

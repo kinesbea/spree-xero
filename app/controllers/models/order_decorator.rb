@@ -43,8 +43,8 @@ Order.class_eval do
     self.adjustments.each do |a|
       adj = XeroGateway::LineItem.new(:quantity => 1,:unit_amount => a.amount, :line_item_id => a.source_type,:tax_amount => 0.0)
       adj.description = a.label.empty? ? a.source_type : a.label
-      adj.account_code = '628'
-      adj.account_code = '624' if "Shipment" == a.source_type
+      adj.account_code = Spree::Config[:adjustment_acct_code]
+      adj.account_code = Spree::Config[:shipping_acct_code] if "Shipment" == a.source_type
       invoice.line_items << adj
     end
   end
@@ -56,7 +56,7 @@ Order.class_eval do
           :quantity => l.quantity,
           :unit_amount => l.price,
           :line_item_id => l.product.id,
-          :account_code => '400',
+          :account_code => l.product.xero_acct_code ? Spree::Config[:sale_dflt_acct_code]:l.product.xero_acct_code,
           :tax_amount => 0.0
       )
     end

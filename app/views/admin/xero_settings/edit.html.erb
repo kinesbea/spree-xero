@@ -2,7 +2,24 @@
 
 <h1><%= t('edit_xero_settings') %></h1>
 
-<%= form_tag(admin_xero_settings_path, :method => :put) do %>
+<%= form_tag(admin_xero_settings_path, :method => :put, :multipart => true) do %>
+
+  <p>
+    <label><%= t("product_sale_dflt_acct_code") %></label>
+    <%= text_field_tag('preferences[sale_dflt_acct_code]', Spree::Config[:sale_dflt_acct_code]) %>
+  </p>
+  <p>
+    <label><%= t("shipping_acct_code") %></label>
+    <%= text_field_tag('preferences[shipping_acct_code]', Spree::Config[:shipping_acct_code]) %>
+  </p>
+  <p>
+    <label><%= t("adjustment_acct_code") %></label>
+    <%= text_field_tag('preferences[adjustment_acct_code]', Spree::Config[:adjustment_acct_code]) %>
+  </p>
+  <p>
+    <label><%= t("payment_acct_code") %></label>
+    <%= text_field_tag('preferences[payment_acct_code]', Spree::Config[:payment_acct_code]) %>
+  </p>
 
   <p>
 	<label><%= t("consumer_key") %></label>
@@ -12,8 +29,17 @@
 	<label><%= t("consumer_secret") %></label>
 	<%= text_field_tag('preferences[xero_consumer_secret]', Spree::Config[:xero_consumer_secret]) %>
   </p>
+  <p>
+	<label><%= t("private_key_file") %></label>
+    <%= file_field_tag :private_key_file %>
+    <%=  Spree::Config[:private_key_file] if Spree::Config[:private_key_file] %>
+  </p>
+
+
   <p class="form-buttons">
     <%= button t('update') %>
-    <%= t("or") %> <%= link_to t("cancel"), admin_xero_settings_url %>
+    &nbsp; <%= t("or") %> <%= link_to t("cancel"), admin_xero_settings_url %>
   </p>
+
+    
 <% end %>

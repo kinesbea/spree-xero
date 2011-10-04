@@ -13,7 +13,7 @@ class XeroUtil
     @error = nil
     if @gateway.nil?
       if self.setup_exists?
-        @gateway = XeroGateway::PrivateApp.new(Spree::Config[:xero_consumer_key], Spree::Config[:xero_consumer_secret], "#{RAILS_ROOT}/config/privatekey.pem")
+        @gateway = XeroGateway::PrivateApp.new(Spree::Config[:xero_consumer_key], Spree::Config[:xero_consumer_secret], "#{RAILS_ROOT}/config/#{Spree::Config[:private_key_file]}")
       else
         @error = I18n.t('xero_no_setup')
       end

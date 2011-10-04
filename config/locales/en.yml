@@ -1,3 +1,8 @@
 ---
 en:
   xero_no_setup : "Xero not setup properly. Go to Admin > Configuration > Xero Settings"
+  xero_gl_code_required : "All GL account code is required"
+  product_sale_dflt_acct_code : "Default (GL) account code for product sale"
+  shipping_acct_code : "Shipping (GL) account code"
+  adjustment_acct_code : "Adjustment (GL) account code"
+  payment_acct_code : "Payment (GL) account code"

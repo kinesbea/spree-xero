@@ -13,8 +13,14 @@ module SpreeXero
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
         Rails.env.production? ? require(c) : load(c)
       end
+      AppConfiguration.class_eval do
+        preference :sale_dflt_acct_code, :String, :default => '400'
+        preference :shipping_acct_code, :String, :default => '624'
+        preference :adjustment_acct_code, :String, :default => '628'
+        preference :payment_acct_code, :String, :default => '400'
+      end
+      
     end
-
     config.to_prepare &method(:activate).to_proc
   end
 
