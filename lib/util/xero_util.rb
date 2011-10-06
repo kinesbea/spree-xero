@@ -2,10 +2,10 @@ class XeroUtil
   include XeroGateway::Http
 
   def self.setup_exists?
-    if Spree::Config[:xero_consumer_key].empty? || Spree::Config[:xero_consumer_secret].empty?
-      false
-    else
+    if Spree::Config[:xero_consumer_key] && Spree::Config[:xero_consumer_secret] && Spree::Config[:private_key_file]
       true
+    else
+      false
     end
   end
 
